@@ -1,54 +1,26 @@
 (function(){
-  'use strict';
-  var module = angular.module('app', ['onsen']);
+	'use strict';
+	var module = angular.module('app', ['onsen']);
 
-  module.controller('AppController', function($scope, $data) {
-    $scope.doSomething = function() {
-      ons.notification.alert({message: 'Hello, World!'});
-    };
-  });
+	module.controller('AppController', function($scope, $http) {
+		//Module App Controller
+		
+	});
 
-  module.controller('DetailController', function($scope, $data) {
-    $scope.item = $data.selectedItem;
-  });
-
-  module.controller('MasterController', function($scope, $data) {
-    $scope.items = $data.items;  
-    
-    $scope.showDetail = function(index) {
-      var selectedItem = $data.items[index];
-      $data.selectedItem = selectedItem;
-      $scope.navi.pushPage('detail.html', {title : selectedItem.title});
-    };
-  });
-
-  module.factory('$data', function() {
-      var data = {};
-      
-      data.items = [
-          { 
-              title: 'Item 1 Title',
-              label: '4h',
-              desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-          },
-          { 
-              title: 'Another Item Title',
-              label: '6h',
-              desc: 'Ut enim ad minim veniam.'
-          },
-          { 
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-          },
-          { 
-              title: 'Yet Another Item Title',
-              label: '1day ago',
-              desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-          }
-      ]; 
-      
-      return data;
-  });
+	/*module.controller('DetailController', function($scope) {
+		
+	}*/
+	module.controller('MasterController', function($scope, $http, $timeout) {
+		$scope.load = function($done) {
+			$http.get("https://" + "port-tides.com/api/apps/phonegap/htmllist.php")
+					.success(function(data, status, headers, config) {
+						document.getElementById("tidaldata").innerHTML = data;
+						$done();
+					}).error(function(data, status, headers, config) {
+						ons.notification.alert({message: 'Sorry, we couldn\'t download Tidal Data from the server - Please check your internet connection and try again', title: 'Error',buttonLabel: 'Dismiss'});
+						$done();
+					});
+		};
+	});
 })();
 

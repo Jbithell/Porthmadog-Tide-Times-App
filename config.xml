@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.port-tides" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="PortTides" version="1.0.0">
 	<name>Port Tides</name>
 	<description>Free Tidal Predictions for the Seaside Town of Porthmadog and its beautiful estuary.</description>
-	<author href="http://www.port-tides.com" email="support@port-tides.com">James Bithell</author>
+	<author href="http://www.port-tides.com" email="t@port-tides.com">James Bithell</author>
 	<content src="index.html"/>
+	<access origin="mailto:*" launch-external="yes"/>
 	<access origin="*" />
 </widget>
