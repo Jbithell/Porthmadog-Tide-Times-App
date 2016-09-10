@@ -1,1 +1,0 @@
-Free Tidal Predictions for the Seaside Town of Porthmadog and its beautiful estuary.

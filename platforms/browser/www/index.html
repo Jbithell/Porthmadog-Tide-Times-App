@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Port-Tides</title>
+
+	<script src="lib/onsen/js/onsenui.js"></script>
+	<script src="jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+	<link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+	<link rel="stylesheet" href="style.css">
+
+	<style>
+	.tide-list {
+		border-top: none;
+		background-image: none !important;
+	}
+
+	.tide {
+		line-height: 1;
+		padding: 0;
+	}
+
+	.tide-left {
+		text-align: right;
+		padding: 10px 10px 10px 0;
+	}
+
+	.tide-center {
+		background-color: #000000;
+	}
+
+	.tide-right {
+		padding: 10px 40px 10px 10px;
+	}
+
+	.tide-date {
+		font-size: 14px;
+		opacity: 0.8;
+		margin-bottom: 4px;
+		font-weight: 500;
+	}
+
+	.tide-duration {
+		font-size: 11px;
+		opacity: 0.4;
+	}
+
+	.tide-name {
+		font-size: 20px;
+		margin-bottom: 2px;
+	}
+	.tide-height {
+		font-size: 15px;
+	}
+	
+		
+	.contact-interface {
+		background-color: #7CB342;
+	}
+
+	.contact-interface-text {
+		color: #7CB342;
+	}
+
+	.contact-interface * {
+		color: #FFFFFF;
+	}
+
+	.page__content {
+		background-color: #F5F5F5 !important;
+	}
+
+	.contact-toolbar-buttons * {
+		padding-right: 6px;
+	}
+
+	.contact-block {
+		background-color: white;
+		margin: 12px 8px 12px 8px;
+		border: 1px solid #ddd;
+		border-top: none;
+		-webkit-border-radius: 4px;
+		border-radius: 2px;
+		background-image: none;
+		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);
+	}
+
+	.contact-block-li {
+		padding: 0 0 0 0;
+		line-height: 1;
+		font-weight: 400;
+		font-family: 'Roboto', 'Noto', sans-serif;
+	}
+
+	.contact-block-li ons-col {
+		padding: 10px 16px 10px 0px;
+	}
+
+	.contact-block-li ons-col.contact-block-col-left {
+		padding-left: 16px;
+		margin-right: 16px;
+	}
+
+	.contact-block-subdivision ons-col:not(.contact-block-col-left) {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.contact-block-header {
+		padding: 10px 16px 10px 16px;
+		border-bottom: 1px solid #ddd !important;
+	}
+
+	.contact-block-footer {
+		border-top: 1px solid #ddd;
+	}
+
+	.contact-icon-container {
+		text-align: center;
+	}
+
+	.contact-block-item-title {
+		margin-top: 4px;
+		font-size: 16px;
+		font-weight: 500;
+		padding-right: 30px;
+		display: block;
+		line-height: 1.15;
+		white-space: nowrap;
+		overflow: auto;
+	}
+
+	.contact-block-item-details {
+		margin-top: 4px;
+		font-size: 14px;
+		color: #757575;
+		line-height: 1.15;
+		white-space: nowrap;
+		overflow: auto;
+	}
+
+	.contact-extra-container {
+		text-align: center;
+		float: right;
+	}
+
+	.contact-extra {
+		font-size: 30px;
+		margin-top: -4px;
+	}
+
+	.contact-extra ons-icon {
+		padding-right: 3px;
+	}
+
+	.contact-extra-seeall ons-icon {
+		opacity: 0.4;
+	}
+
+	.contact-about {
+		padding: 10px 16px 10px 16px;
+	}
+
+	.rotate45 {
+		-webkit-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+
+	</style>
+	<script>
+	var lang = window.localStorage.getItem("lang") || 'en';
+	function changelang() {
+		if (document.getElementById('changelangswitch').checked) {
+			lang = "cy";
+			window.localStorage.setItem("lang", "cy");
+		} else {
+			lang = "en";
+			window.localStorage.setItem("lang", "en");
+		}
+	}
+	
+	var donefunction = function () {
+		console.log("DONE");
+	};
+	function displaytides(result) {
+		console.log(result);
+		output = "";
+		$.each(result, function( index, value ) {
+			output += ('<ons-list-item class="tide" style="height: 80px;"><ons-row><ons-col width="80px" class="tide-left"><div class="tide-date">');
+			$.each(value.TIDES, function( index, value ) {
+				output += (value.TIME + "<br/>");
+			});
+			output += '</div></ons-col><ons-col width="6px" class="tide-center"></ons-col><ons-col class="tide-right"><div class="tide-name">';
+			output += value.DAYNAME + ' ' + value.DAYNUMBER + '<sup>' + value.DAYORDINAL + '</sup>';
+			output += '</div><div class="tide-info">' + value.MONTHNAME + " " + value.YEAR + '</div><div class="tide-height">';
+			output += value.TIDES[0].HEIGHT + "m";
+			if (Object.keys(value.TIDES).length > 1) {
+				output += " &amp; " + value.TIDES[1].HEIGHT + "m";
+			}
+			output += '</div></ons-col></ons-row></ons-list-item>';
+		});
+		$("#tideslist").html(output);
+		console.log(result);
+		donefunction();
+	}
+	function newtides() {
+		$.ajax({
+			url: 'https://jbithell.com/projects/port-tides2/api/v3/predictions/?lang=' + lang + '&format=json&period=730',
+			cache : false,
+			crossDomain:true,
+			success: function (result) {
+				window.localStorage.setItem("tides", JSON.stringify(result));
+				displaytides(result);
+			}, error: function(jqXHR, textStatus, errorThrown) {
+				console.log("Connection Error");
+				ons.notification.alert({title: "Error", message: 'We seem to have some trouble connecting to the Port-Tides network - please check your internet connection and try again'});
+				donefunction();
+			}
+		});
+	}
+	document.addEventListener('init', function(event) {
+		var page = event.target;
+		page.querySelector('#aboutbutton').onclick = function() {
+			document.querySelector('#myNavigator').pushPage('settings.html', {data: {}});
+		};
+	});
+	ons.ready(function() {
+		var pullHook = document.getElementById('pull-hook');
+		pullHook.onAction = function(done) {
+			donefunction = done;
+			newtides();
+		};
+		if (window.localStorage.getItem("tides")) { //Try and use cache
+			var tides = JSON.parse(window.localStorage.getItem("tides"));
+			if (tides) {
+				displaytides(tides);
+			}
+		}
+		newtides(); //First tides call
+		
+		if (lang == "cy") {
+			//$("#switchdiv").html('<ons-switch chekced onchange="changelang()" id="changelangswitch"></ons-switch>');
+		} else {
+			//$("#switchdiv").html('<ons-switch onchange="changelang()" id="changelangswitch"></ons-switch>');
+		}
+	});
+	
+	
+	//Contact & Copyright
+	if (window.localStorage.getItem("contact")) { //Try and use cache
+		$("#contact").html(window.localStorage.getItem("contact"));
+	}
+	if (window.localStorage.getItem("copyright")) { //Try and use cache
+		$("#copyright").html(window.localStorage.getItem("copyright"));
+	}
+	$.ajax({
+		url: 'https://jbithell.com/projects/port-tides2/api/v3/contact/?lang=' + lang + '&format=json',
+		cache : false,
+		crossDomain:true,
+		success: function (result) {
+			window.localStorage.setItem("contact", result);
+			$("#contact").html(result);
+		}, error: function(jqXHR, textStatus, errorThrown) {
+			console.log("Connection Error");
+		}
+	});
+	$.ajax({
+		url: 'https://jbithell.com/projects/port-tides2/api/v3/copyright/?lang=' + lang + '&format=json',
+		cache : false,
+		crossDomain:true,
+		success: function (result) {
+			output = "";
+			$.each(result, function( index, value ) {
+				output += ('<span style="font-weight: bold;">' + index + ':</span> ' + value + '<br/>');
+			});
+			window.localStorage.setItem("copyright", output);
+			$("#copyright").html(output);
+		}, error: function(jqXHR, textStatus, errorThrown) {
+			console.log("Connection Error");
+		}
+	});
+	</script>
+</head>
+
+<body>
+
+	<ons-navigator id="myNavigator" page="tabbar.html">
+	</ons-navigator>
+	<ons-template id="tabbar.html">
+			<ons-page id="tabbarPage">
+				<ons-toolbar>
+					<div class="left">
+					</div>
+					<div class="center">Port Tides</div>
+					<div class="right">
+						<ons-if id="aboutbutton">
+							<ons-toolbar-button>About</ons-toolbar-button>
+						</ons-if>
+					</div>
+				</ons-toolbar>
+				<ons-pull-hook id="pull-hook">
+					<div style="background-image: url(images/waves.gif); background-repeat:no-repeat; background-size: cover; width: 100%; height: 64px;"></div>
+				</ons-pull-hook>
+				<ons-list id="tideslist">
+				
+				</ons-list>
+			</ons-page>
+		</ons-template>
+	<ons-template id="settings.html">
+		<ons-page >
+		<ons-toolbar  class="contact-interface">
+			<div class="left">
+				<ons-back-button ></ons-back-button>
+			</div>
+			<div class="center">Settings &amp; About</div>
+		</ons-toolbar>
+		<ons-list class="contact-block" >
+			<ons-list-item  class="contact-block-li contact-block-header">
+				<div class="contact-from">
+					<span class="contact-block-item-title contact-interface-text">Porthmadog Tide Times App</span>
+				</div>
+			</ons-list-item>
+
+			<ons-list-item class="contact-about">
+				<ons-ripple color="rgba(0, 0, 0, 0.03)"></ons-ripple>
+				<div class="contact-block-item-title">
+					Author
+				</div>
+				<div class="contact-block-item-details">
+					James Bithell
+				</div>
+			</ons-list-item>
+			<ons-list-item class="contact-about">
+				<ons-ripple color="rgba(0, 0, 0, 0.03)"></ons-ripple>
+				<div class="contact-block-item-title">
+					Base
+				</div>
+				<div class="contact-block-item-details">
+					Onsen UI 2, Adobe PhoneGap & JQuery
+				</div>
+			</ons-list-item>
+		</ons-list>
+		<ons-list  style="background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);">
+			<ons-list-header>Settings</ons-list-header>
+			<ons-list-item>
+			  <div class="center">
+				Welsh Version coming soon
+			  </div>
+			  <div class="right" id="switchdiv">
+			  </div>
+			</ons-list-item>
+		</ons-list>
+		<div style="padding: 8px; background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);" id="contact">
+		Loading contact information...
+		</div>
+		<div style="padding: 8px; background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);" id="copyright">
+		Loading copyright information...
+		</div>
+	</ons-page>
+			
+	</ons-template>
+
+</body>
+
+</html>

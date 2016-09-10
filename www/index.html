@@ -1,507 +1,366 @@
-<!doctype html>
-<html lang="en" ng-app="app">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
+	<meta charset="UTF-8">
+	<title>Port-Tides</title>
 
-	<title>Porthmadog Tide Times</title>	
+	<script src="lib/onsen/js/onsenui.js"></script>
+	<script src="jquery.min.js"></script>
 	
 	<link rel="stylesheet" href="lib/onsen/css/onsenui.css">
-	<link rel="stylesheet" href="styles/app.css"/>
-	<link rel="stylesheet" href="styles/onsen-css-components-blue-basic-theme.css">
-
-	<script src="lib/onsen/js/angular/angular.js"></script>
-	<script src="lib/onsen/js/onsenui.js"></script>
-	
-	<script src="cordova.js"></script>
-	<script src="js/jquery-2.1.4.min.js"></script>
-	<script src="js/app.js"></script>
-	
-	<script>
-	$(document).ready(function(){
-		showDetail = function (data) {
-			$('#page_title').html('Tidal Predictions for ' + data.date);
-			$('#page_head').html(data.date);
-			$('#tide1time').html(data.tide1time);
-			$('#tide1height').html(data.tide1height);
-			$('#tide1time').html(data.tide2time);
-			$('#tide2height').html(data.tide2height);
-			navi.pushPage('detail.html');
-		};
-	});
-	</script>
-	<script>
-	/*ons.ready(function() {
-		
-	});*/
-	</script>
+	<link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+	<link rel="stylesheet" href="style.css">
 
 	<style>
-	.item {
-		padding: 10px;
+	.tide-list {
+		border-top: none;
+		background-image: none !important;
+	}
+
+	.tide {
 		line-height: 1;
+		padding: 0;
 	}
-	.item-thum {
-		background-color: #ccc;
-		width: 50px;
-		height: 50px;
-		border-radius: 4px;
+
+	.tide-left {
+		text-align: right;
+		padding: 10px 10px 10px 0;
 	}
-	.item-title {
-		font-size: 15px;
+
+	.tide-center {
+		background-color: #000000;
+	}
+
+	.tide-right {
+		padding: 10px 40px 10px 10px;
+	}
+
+	.tide-date {
+		font-size: 14px;
+		opacity: 0.8;
+		margin-bottom: 4px;
 		font-weight: 500;
 	}
-	.item-desc {
-		font-size: 14px;
-		color: #666;
-		line-height: 1.3;
-		margin: 4px 0 0 0;
-		padding: 0 30px 0 0;
+
+	.tide-duration {
+		font-size: 11px;
+		opacity: 0.4;
 	}
-	.item-label {
-		font-size: 12px;
-		color: #999;
+
+	.tide-name {
+		font-size: 20px;
+		margin-bottom: 2px;
+	}
+	.tide-height {
+		font-size: 15px;
+	}
+	
+		
+	.contact-interface {
+		background-color: #7CB342;
+	}
+
+	.contact-interface-text {
+		color: #7CB342;
+	}
+
+	.contact-interface * {
+		color: #FFFFFF;
+	}
+
+	.page__content {
+		background-color: #F5F5F5 !important;
+	}
+
+	.contact-toolbar-buttons * {
+		padding-right: 6px;
+	}
+
+	.contact-block {
+		background-color: white;
+		margin: 12px 8px 12px 8px;
+		border: 1px solid #ddd;
+		border-top: none;
+		-webkit-border-radius: 4px;
+		border-radius: 2px;
+		background-image: none;
+		box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);
+	}
+
+	.contact-block-li {
+		padding: 0 0 0 0;
+		line-height: 1;
+		font-weight: 400;
+		font-family: 'Roboto', 'Noto', sans-serif;
+	}
+
+	.contact-block-li ons-col {
+		padding: 10px 16px 10px 0px;
+	}
+
+	.contact-block-li ons-col.contact-block-col-left {
+		padding-left: 16px;
+		margin-right: 16px;
+	}
+
+	.contact-block-subdivision ons-col:not(.contact-block-col-left) {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.contact-block-header {
+		padding: 10px 16px 10px 16px;
+		border-bottom: 1px solid #ddd !important;
+	}
+
+	.contact-block-footer {
+		border-top: 1px solid #ddd;
+	}
+
+	.contact-icon-container {
+		text-align: center;
+	}
+
+	.contact-block-item-title {
+		margin-top: 4px;
+		font-size: 16px;
+		font-weight: 500;
+		padding-right: 30px;
+		display: block;
+		line-height: 1.15;
+		white-space: nowrap;
+		overflow: auto;
+	}
+
+	.contact-block-item-details {
+		margin-top: 4px;
+		font-size: 14px;
+		color: #757575;
+		line-height: 1.15;
+		white-space: nowrap;
+		overflow: auto;
+	}
+
+	.contact-extra-container {
+		text-align: center;
 		float: right;
 	}
-	.profile-card {
-		width: 100%;
-		text-align: center;
-		color: black;
-		padding: 30px 0;
-		line-height: 1.4;
-		
-		background-image:url('images/opaque_background.jpg');
-		background-repeat:no-repeat;
-		background-size:cover;
-		text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;
+
+	.contact-extra {
+		font-size: 30px;
+		margin-top: -4px;
 	}
 
-	.profile-image {
-		height: 100px;
-		width: 100px;
+	.contact-extra ons-icon {
+		padding-right: 3px;
 	}
 
-	.profile-name {
-		margin: 20px 0 0 0;
-		font-weight: 600;
-		font-size: 17px;
+	.contact-extra-seeall ons-icon {
+		opacity: 0.4;
 	}
 
-	.profile-id {
-		margin: 0 0 5px 0;
-		font-size: 14px;
-		opacity: 0.6;
+	.contact-about {
+		padding: 10px 16px 10px 16px;
 	}
 
-	.profile-desc {
-		font-size: 15px;
-		opacity: 0.6;
-		width: 90%;
-		text-align: center;
-		margin: 0 auto;
-	}
-
-	.info-col {
-		height: 60px;
-		line-height: 1;
-		padding: 12px 0 12px 4px;
-	}
-	a {
-		color: inherit; /* blue colors for links too */
-		text-decoration: inherit; /* no underline */
-	}
-	.dialog {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		-webkit-background-clip: padding-box;
-		background-clip: padding-box;
-		padding: 0;
-		margin: 0;
-		font: inherit;
-		color: inherit;
-		background: transparent;
-		border: none;
-		line-height: normal;
-		cursor: default;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		font-weight: 400;
-		font-size: 17px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		-webkit-transform: translate(-50%, -50%);
-		-moz-transform: translate(-50%, -50%);
-		-ms-transform: translate(-50%, -50%);
-		-o-transform: translate(-50%, -50%);
-		transform: translate(-50%, -50%);
-		margin: auto auto;
-		background-color: rgba(255, 255, 255, 0.92);
-		-webkit-box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-		box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-		overflow: hidden;
-		min-width: 270px;
-		min-height: 100px;
-		text-align: left;
-		-webkit-border-radius: 4px;
-		border-radius: 4px;
-	}
-	.dialog-mask {
-		padding: 0;
-		margin: 0;
-		font: inherit;
-		color: inherit;
-		background: transparent;
-		border: none;
-		line-height: normal;
-		cursor: default;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		bottom: 0;
-		background-color: rgba(0,0,0,0.3);
-	}
-	.popover-mask {
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background-color: rgba(0,0,0,0.1);
-	}
-	.popover {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		-webkit-background-clip: padding-box;
-		background-clip: padding-box;
-		padding: 0;
-		margin: 0;
-		font: inherit;
-		color: inherit;
-		background: transparent;
-		border: none;
-		line-height: normal;
-		cursor: default;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		font-weight: 400;
-		font-size: 17px;
-		position: absolute;
-		width: 220px;
-		min-height: 100px;
-	}
-	.popover__content {
-		background-color: white;
-		-webkit-border-radius: 8px;
-		border-radius: 8px;
-		-webkit-box-shadow: 0 2px 16px rgba(0,0,0,0.1);
-		box-shadow: 0 2px 16px rgba(0,0,0,0.1);
-		color: #1f1f21;
-		overflow: hidden;
-		min-height: 100px;
-		height: 100%;
-	}
-	.popover__content > * {
-		overflow: hidden;
-	}
-	.popover__bottom-arrow {
-		content: '';
-		position: absolute;
-		width: 18px;
-		height: 18px;
-		-webkit-transform-origin: 50% 50% 0;
-		-moz-transform-origin: 50% 50% 0;
-		-ms-transform-origin: 50% 50% 0;
-		-o-transform-origin: 50% 50% 0;
-		transform-origin: 50% 50% 0;
-		background-color: transparent;
-		background-image: -webkit-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -moz-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -o-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: linear-gradient(45deg, white, white 50%, transparent 50%);
-		-webkit-border-radius: 0 0 0 4px;
-		border-radius: 0 0 0 4px;
-		-webkit-transform: rotate(-45deg);
-		-moz-transform: rotate(-45deg);
-		-ms-transform: rotate(-45deg);
-		-o-transform: rotate(-45deg);
-		transform: rotate(-45deg);
-		bottom: 0;
-		left: 50%;
-		margin-left: -9px;
-		margin-bottom: -9px;
-	}
-	.popover__top-arrow {
-		content: '';
-		position: absolute;
-		width: 18px;
-		height: 18px;
-		-webkit-transform-origin: 50% 50% 0;
-		-moz-transform-origin: 50% 50% 0;
-		-ms-transform-origin: 50% 50% 0;
-		-o-transform-origin: 50% 50% 0;
-		transform-origin: 50% 50% 0;
-		background-color: transparent;
-		background-image: -webkit-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -moz-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -o-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: linear-gradient(45deg, white, white 50%, transparent 50%);
-		-webkit-border-radius: 0 0 0 4px;
-		border-radius: 0 0 0 4px;
-		-webkit-transform: rotate(135deg);
-		-moz-transform: rotate(135deg);
-		-ms-transform: rotate(135deg);
-		-o-transform: rotate(135deg);
-		transform: rotate(135deg);
-		top: 0;
-		left: 50%;
-		margin-left: -9px;
-		margin-top: -9px;
-	}
-	.popover__left-arrow {
-		content: '';
-		position: absolute;
-		width: 18px;
-		height: 18px;
-		-webkit-transform-origin: 50% 50% 0;
-		-moz-transform-origin: 50% 50% 0;
-		-ms-transform-origin: 50% 50% 0;
-		-o-transform-origin: 50% 50% 0;
-		transform-origin: 50% 50% 0;
-		background-color: transparent;
-		background-image: -webkit-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -moz-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -o-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: linear-gradient(45deg, white, white 50%, transparent 50%);
-		-webkit-border-radius: 0 0 0 4px;
-		border-radius: 0 0 0 4px;
+	.rotate45 {
 		-webkit-transform: rotate(45deg);
-		-moz-transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		-o-transform: rotate(45deg);
 		transform: rotate(45deg);
-		top: 50%;
-		left: 0;
-		margin-left: -9px;
-		margin-top: -9px;
-	}
-	.popover__right-arrow {
-		content: '';
-		position: absolute;
-		width: 18px;
-		height: 18px;
-		-webkit-transform-origin: 50% 50% 0;
-		-moz-transform-origin: 50% 50% 0;
-		-ms-transform-origin: 50% 50% 0;
-		-o-transform-origin: 50% 50% 0;
-		transform-origin: 50% 50% 0;
-		background-color: transparent;
-		background-image: -webkit-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -moz-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: -o-linear-gradient(45deg, white, white 50%, transparent 50%);
-		background-image: linear-gradient(45deg, white, white 50%, transparent 50%);
-		-webkit-border-radius: 0 0 0 4px;
-		border-radius: 0 0 0 4px;
-		-webkit-transform: rotate(225deg);
-		-moz-transform: rotate(225deg);
-		-ms-transform: rotate(225deg);
-		-o-transform: rotate(225deg);
-		transform: rotate(225deg);
-		top: 50%;
-		right: 0;
-		margin-right: -9px;
-		margin-top: -9px;
 	}
 
-		</style>
+	</style>
 	<script>
-		function ordinal(i) {
-		var j = i % 10,
-			k = i % 100;
-		if (j == 1 && k != 11) {
-			return i + "st";
+	var lang = window.localStorage.getItem("lang") || 'en';
+	function changelang() {
+		if (document.getElementById('changelangswitch').checked) {
+			lang = "cy";
+			window.localStorage.setItem("lang", "cy");
+		} else {
+			lang = "en";
+			window.localStorage.setItem("lang", "en");
 		}
-		if (j == 2 && k != 12) {
-			return i + "nd";
-		}
-		if (j == 3 && k != 13) {
-			return i + "rd";
-		}
-		return i + "th";
 	}
-		</script>
+	
+	var donefunction = function () {
+		console.log("DONE");
+	};
+	function displaytides(result) {
+		console.log(result);
+		output = "";
+		$.each(result, function( index, value ) {
+			output += ('<ons-list-item class="tide" style="height: 80px;"><ons-row><ons-col width="80px" class="tide-left"><div class="tide-date">');
+			$.each(value.TIDES, function( index, value ) {
+				output += (value.TIME + "<br/>");
+			});
+			output += '</div></ons-col><ons-col width="6px" class="tide-center"></ons-col><ons-col class="tide-right"><div class="tide-name">';
+			output += value.DAYNAME + ' ' + value.DAYNUMBER + '<sup>' + value.DAYORDINAL + '</sup>';
+			output += '</div><div class="tide-info">' + value.MONTHNAME + " " + value.YEAR + '</div><div class="tide-height">';
+			output += value.TIDES[0].HEIGHT + "m";
+			if (Object.keys(value.TIDES).length > 1) {
+				output += " &amp; " + value.TIDES[1].HEIGHT + "m";
+			}
+			output += '</div></ons-col></ons-row></ons-list-item>';
+		});
+		$("#tideslist").html(output);
+		console.log(result);
+		donefunction();
+	}
+	function newtides() {
+		$.ajax({
+			url: 'https://api.port-tides.com/v3/predictions/?lang=' + lang + '&format=json&period=730',
+			cache : false,
+			crossDomain:true,
+			success: function (result) {
+				window.localStorage.setItem("tides", JSON.stringify(result));
+				displaytides(result);
+			}, error: function(jqXHR, textStatus, errorThrown) {
+				console.log("Connection Error");
+				ons.notification.alert({title: "Error", message: 'We seem to have some trouble connecting to the Port-Tides network - please check your internet connection and try again'});
+				donefunction();
+			}
+		});
+	}
+	document.addEventListener('init', function(event) {
+		var page = event.target;
+		page.querySelector('#aboutbutton').onclick = function() {
+			document.querySelector('#myNavigator').pushPage('settings.html', {data: {}});
+		};
+	});
+	ons.ready(function() {
+		var pullHook = document.getElementById('pull-hook');
+		pullHook.onAction = function(done) {
+			donefunction = done;
+			newtides();
+		};
+		if (window.localStorage.getItem("tides")) { //Try and use cache
+			var tides = JSON.parse(window.localStorage.getItem("tides"));
+			if (tides) {
+				displaytides(tides);
+			}
+		}
+		newtides(); //First tides call
+		
+		if (lang == "cy") {
+			//$("#switchdiv").html('<ons-switch chekced onchange="changelang()" id="changelangswitch"></ons-switch>');
+		} else {
+			//$("#switchdiv").html('<ons-switch onchange="changelang()" id="changelangswitch"></ons-switch>');
+		}
+	});
+	
+	
+	//Contact & Copyright
+	if (window.localStorage.getItem("contact")) { //Try and use cache
+		$("#contact").html(window.localStorage.getItem("contact"));
+	}
+	if (window.localStorage.getItem("copyright")) { //Try and use cache
+		$("#copyright").html(window.localStorage.getItem("copyright"));
+	}
+	$.ajax({
+		url: 'https://api.port-tides.com/v3/contact/?lang=' + lang + '&format=json',
+		cache : false,
+		crossDomain:true,
+		success: function (result) {
+			window.localStorage.setItem("contact", result);
+			$("#contact").html(result);
+		}, error: function(jqXHR, textStatus, errorThrown) {
+			console.log("Connection Error");
+		}
+	});
+	$.ajax({
+		url: 'https://api.port-tides.com/v3/copyright/?lang=' + lang + '&format=json',
+		cache : false,
+		crossDomain:true,
+		success: function (result) {
+			output = "";
+			$.each(result, function( index, value ) {
+				output += ('<span style="font-weight: bold;">' + index + ':</span> ' + value + '<br/>');
+			});
+			window.localStorage.setItem("copyright", output);
+			$("#copyright").html(output);
+		}, error: function(jqXHR, textStatus, errorThrown) {
+			console.log("Connection Error");
+		}
+	});
+	</script>
 </head>
 
-<body ng-controller="AppController">	
+<body>
 
-	<ons-navigator var="navi">
-	<ons-page>
-		<ons-toolbar>
-		<div class="left"><ons-toolbar-button><ons-icon icon="ion-gear-a" style="vertical-align: -4px; font-size: 28px;" ng-click="navi.pushPage('settings.html', {title : selectedItem.title});"></ons-icon></ons-toolbar-button></div>
-		<div class="center">Porthmadog Tide Times</div>
-		</ons-toolbar>
-		<ons-pull-hook ng-controller="MasterController" ng-action="load($done)" var="loader">
-		<span ng-switch="loader.getCurrentState()">
-			<span ng-switch-when="initial"><ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon> Pull down to refresh</span>
-			<span ng-switch-when="preaction"><ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon> Release to refresh</span>
-			<span ng-switch-when="action"><div style="background-image: url(images/waves.gif); background-repeat:no-repeat; background-size: cover; width: 100%; height: 64px;"></div><!--<ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...--></span>
-		</span>
-		</ons-pull-hook>
-		<ons-list ng-controller="MasterController" id="tidaldata">
-		
-		<div class="popover-mask"></div>
-		<div class="popover popover--down" style="top:20px;left:50px;">
-			<div class="popover__top-arrow"></div>
-			<div class="popover__content">
-			<div style="text-align:center;opacity:0.4;margin-top:40px">Pull Down to Load Tides!</div>
-			</div>
-		</div>
-		
-		</ons-list>
-	</ons-page>
+	<ons-navigator id="myNavigator" page="tabbar.html">
 	</ons-navigator>
-
-	<ons-template id="detail.html">
-	<ons-page><!--ng-controller="DetailController"-->
-		<ons-toolbar>
-		<div class="left"><ons-back-button>Back</ons-back-button></div>
-		<div class="center" id="page_head">Error</div>
-		</ons-toolbar>
-		<ons-list modifier="inset" style="margin-top: 10px">
-		<ons-list-item class="item">
-			<ons-row>
-			<!--<ons-col width="60px"> 
-				<div class="item-thum"></div>
-			</ons-col>-->
-			<ons-col>
-				<header>
-				<span class="item-title" id="page_title">Tidal Predictions are loading...</span>
-				<!--<span class="item-label">{{item.label}}</span>-->
-				</header>
-				<!--<p class="item-desc">{{item.desc}}</p>-->
-			</ons-col>
-			</ons-row>
-		</ons-list-item>
-
-		<ons-list>
-			<ons-list-item class="item">
-				<header>
-					<span class="item-title" id="time1time">Major Error</span>
-				</header>
-				<p class="item-desc" id="time1height">Major Error - Could not get tide times - Please take a screen shot and then email it to the address in 'Settings'</p>
-			</ons-list-item>
-			<ons-list-item class="item">
-				<header>
-				<span class="item-title" id="time2time"></span>
-				</header>
-				<p class="item-desc" id="time1height"></p>
-			</ons-list-item>
-			</ons-list>
-		</ons-list>
-		<ons-list modifier="inset" style="margin-top: 10px">
-			<ons-list-item class="item">
-				<header>
-					<span class="item-title">Copyright Information</span>
-				</header>
-				<p class="item-desc">All Tidal Data is &copy;Crown Copyright. Reproduced by permission of the Controller of Her Majesty's Stationery Office and the UK Hydrographic Office (www.ukho.gov.uk). No tidal data may be reproduced without the expressed permission of the UKHO licensing department<br/>Website &amp; App &copy;2015 James Bithell</p>
-			</ons-list-item>
-			<ons-list-item class="item">
-				<header>
-					<span class="item-title">Disclaimer</span>
-				</header>
-				<p class="item-desc">Tidal Predictions are provided for use by all water users though the developers of this site can not be held accountable for the accuracy of this data or any accidents that result from the use of this data</p>
-			</ons-list-item>
-			<ons-list-item class="item">
-				<header>
-					<span class="item-title">Time Zone Information</span>
-				</header>
-				<p class="item-desc">All Tidal Predictions above are displayed in GMT/BST</p>
-			</ons-list-item>
-		</ons-list>
-	</ons-page>
-	</ons-template>
+	<ons-template id="tabbar.html">
+			<ons-page id="tabbarPage">
+				<ons-toolbar>
+					<div class="left">
+					</div>
+					<div class="center">Port Tides</div>
+					<div class="right">
+						<ons-if id="aboutbutton">
+							<ons-toolbar-button>About</ons-toolbar-button>
+						</ons-if>
+					</div>
+				</ons-toolbar>
+				<ons-pull-hook id="pull-hook">
+					<div style="background-image: url(images/waves.gif); background-repeat:no-repeat; background-size: cover; width: 100%; height: 64px;"></div>
+				</ons-pull-hook>
+				<ons-list id="tideslist">
+				
+				</ons-list>
+			</ons-page>
+		</ons-template>
 	<ons-template id="settings.html">
-		<ons-page>
-			<ons-toolbar>
-			<div class="left"><ons-back-button>Tides</ons-back-button></div>
-			<div class="center">Settings &amp; About</div>
-			</ons-toolbar>
-			<div class="profile-card">
-				<img src="images/logo.png" class="profile-image">
-				<div class="profile-name">Porthmadog Tide Times</div>
-				<div class="profile-id">by James Bithell</div>
-				<div class="profile-desc">Free Tidal Predictions for the Seaside Town of Porthmadog and its beautiful estuary.</div>
+		<ons-page >
+		<ons-toolbar  class="contact-interface">
+			<div class="left">
+				<ons-back-button ></ons-back-button>
 			</div>
-			<ons-list modifier="inset" style="margin-top: 10px">
-				<ons-list-item class="item">
-					<header>
-						<center><img src="images/blogo.png" style="width: 70%; max-width: 200px;" alt="BLogo" /></center>
-					</header>
-					<p class="item-desc">
-						<center>Porthmadog Tide Times (port-tides.com) Official Mobile &amp; Tablet Application.<br/>Developed by James Bithell, www.jbithell.com</center>
-					</p>
-				</ons-list-item>
-			</ons-list>
-			<ons-list modifier="inset" style="margin-top: 40px">
-				<ons-list-item>
-					Welsh Language Version <i>(Coming Soon)</i>
-					<ons-switch disabled="true" modifier="list-item"></ons-switch>
-				</ons-list-item>
-			</ons-list>
-			<ons-list modifier="inset" style="margin-top: 40px">
-				<a href="mailto:tides@port-tides.com?Subject=App%20Support&body=Developer%20Debug%20Information%20(Please%20do%20not%20remove%20this%20text):%0A%0A%20Debug%20stuff%20%0A%0A%0A%0APLEASE%20ENTER%20YOUR%20MESSAGE%20BELOW:%0A%0A" target="_top"><ons-list-item class="item">
-					<header>
-						<span class="item-title">Contact Support</span>
-					</header>
-					<p class="item-desc">Click to E-Mail tides@port-tides.com</p>
-				</ons-list-item></a>
-			</ons-list>
-			<ons-list modifier="inset" style="margin-top: 20px">
-				<ons-list-item class="item">
-					<header>
-						<span class="item-title">Copyright Information</span>
-					</header>
-					<p class="item-desc">All Tidal Data is &copy;Crown Copyright. Reproduced by permission of the Controller of Her Majesty's Stationery Office and the UK Hydrographic Office (www.ukho.gov.uk). No tidal data may be reproduced without the expressed permission of the UKHO licensing department<br/>Website &amp; App &copy;2015 James Bithell</p>
-				</ons-list-item>
-				<ons-list-item class="item">
-					<header>
-						<span class="item-title">Disclaimer</span>
-					</header>
-					<p class="item-desc">Tidal Predictions are provided for use by all water users though the developers of this site can not be held accountable for the accuracy of this data or any accidents that result from the use of this data</p>
-				</ons-list-item>
-				<ons-list-item class="item">
-					<header>
-						<span class="item-title">Time Zone Information</span>
-					</header>
-					<p class="item-desc">All Tidal Predictions above are displayed in GMT/BST</p>
-				</ons-list-item>
-				<ons-list-item class="item">
-					<header>
-						<span class="item-title">Images</span>
-					</header>
-					<p class="item-desc">Cover photograph of Porthmadog Harbour from Wikimedia Commons (By Skinsmoke (Own work) [CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0) or GFDL (http://www.gnu.org/copyleft/fdl.html)])</p>
-				</ons-list-item>
-			</ons-list>
-		</ons-page>
+			<div class="center">Settings &amp; About</div>
+		</ons-toolbar>
+		<ons-list class="contact-block" >
+			<ons-list-item  class="contact-block-li contact-block-header">
+				<div class="contact-from">
+					<span class="contact-block-item-title contact-interface-text">Porthmadog Tide Times App</span>
+				</div>
+			</ons-list-item>
+
+			<ons-list-item class="contact-about">
+				<ons-ripple color="rgba(0, 0, 0, 0.03)"></ons-ripple>
+				<div class="contact-block-item-title">
+					Author
+				</div>
+				<div class="contact-block-item-details">
+					James Bithell
+				</div>
+			</ons-list-item>
+			<ons-list-item class="contact-about">
+				<ons-ripple color="rgba(0, 0, 0, 0.03)"></ons-ripple>
+				<div class="contact-block-item-title">
+					Base
+				</div>
+				<div class="contact-block-item-details">
+					Onsen UI 2, Adobe PhoneGap & JQuery
+				</div>
+			</ons-list-item>
+		</ons-list>
+		<ons-list  style="background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);">
+			<ons-list-header>Settings</ons-list-header>
+			<ons-list-item>
+			  <div class="center">
+				Welsh Version coming soon
+			  </div>
+			  <div class="right" id="switchdiv">
+			  </div>
+			</ons-list-item>
+		</ons-list>
+		<div style="padding: 8px; background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);" id="contact">
+		Loading contact information...
+		</div>
+		<div style="padding: 8px; background-color: white; margin: 12px 8px 12px 8px; border: 1px solid #ddd; border-top: none; border-radius: 2px; background-image: none; box-shadow: 0 3px 2px -2px rgba(0, 0, 0, 0.33);" id="copyright">
+		Loading copyright information...
+		</div>
+	</ons-page>
+			
 	</ons-template>
-	
+
 </body>
+
 </html>
