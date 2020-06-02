@@ -205,18 +205,30 @@
 		donefunction();
 	}
 	function newtides() {
-		$.ajax({
-			url: 'https://api.port-tides.com/v3/predictions/?lang=' + lang + '&format=json&period=730',
-			cache : false,
-			crossDomain:true,
-			success: function (result) {
-				window.localStorage.setItem("tides", JSON.stringify(result));
-				displaytides(result);
-			}, error: function(jqXHR, textStatus, errorThrown) {
-				console.log("Connection Error");
-				ons.notification.alert({title: "Error", message: 'We seem to have some trouble connecting to the Port-Tides network - please check your internet connection and try again'});
-				donefunction();
-			}
+		$(function() {
+			var params = {
+				"duration": "7",
+			};
+			$.ajax({
+				url: "https://admiraltyapi.azure-api.net/uktidalapi/api/V1/Stations/0484/TidalEvents?" + $.param(params),
+				beforeSend: function(xhrObj){
+					// Request headers
+					xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","7bd9b2dd47b24b2dacaebe3556f791d4");
+				},
+				type: "GET",
+				// Request body
+				data: "",
+			})
+					.done(function(data) {
+						console.log(data);
+						window.localStorage.setItem("tides", JSON.stringify(result));
+						displaytides(result);
+					})
+					.fail(function() {
+						console.log("Connection Error");
+						ons.notification.alert({title: "Error", message: 'We seem to have some trouble connecting to the Port-Tides network - please check your internet connection and try again'});
+						donefunction();
+					});
 		});
 	}
 	document.addEventListener('init', function(event) {

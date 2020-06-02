@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free Tidal Predictions for the Seaside Town of Porthmadog and its beautiful estuary.">
+    <meta name="author" content="James Bithell">
+    <title>Porthmadog Tide Times</title>
+
+    <!--Jquery--->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous" />
+    <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+
+    <!--Backstrech - Background Slide Show-->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js" integrity="sha256-V52dl3OFjoY+fYAkifhLJ7f1V7mZAKPGCQoWzoQxrEU=" crossorigin="anonymous"></script>
+
+    <!--Bootbox-->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" integrity="sha256-4F7e4JsAJyLUdpP7Q8Sah866jCOhv72zU5E8lIRER4w=" crossorigin="anonymous"></script>
+
+    <!-- Link for extension -->
+    <link rel="chrome-webstore-item" href="//chrome.google.com/webstore/detail/ogjgofppefhhffefpehhjefihihihinb">
+    <script>
+        // Ensure that the DOM has fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Support other browsers
+            var chrome = window.chrome || {};
+            if (chrome.app && chrome.webstore) {
+                // Fetch all install links
+                var links = document.querySelectorAll('.js-chrome-install');
+                // Create "click" event listener
+                var onClick = function(e) {
+                    var that = this;
+                    // Attempt to install the extension/app
+                    chrome.webstore.install(that.href, function() {
+                        // Change the state of the button
+                        that.classList.remove('js-chrome-install');
+                        // Prevent any further clicks from attempting an install
+                        that.removeEventListener('click', onClick);
+                    });
+                    // Prevent the opening of the Web Store page
+                    e.preventDefault();
+                };
+                // Bind "click" event listener to links
+                for (var i = 0; i < links.length; i++) {
+                    links[i].addEventListener('click', onClick);
+                }
+            }
+        });
+    </script>
+    <!--End Chrome Extension Stuff-->
+    <script>
+        $( document ).ready(function() {
+            $.backstretch(['background.jpeg'], {duration: 4500, fade: 1000});
+        });
+    </script>
+
+    <!--Custom CSS-->
+    <style>
+        .modal-dialog {
+            color: black;
+        }
+        body {
+            /*background-image: url("img/backgrounds/harbour.jpg");*/
+            background-repeat: no-repeat;
+            background-size:cover;
+        }
+        .box {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            color: black;
+            opacity: 0.8;
+        }
+        a:link {
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
+        a:hover {
+            color: black;
+        }
+        a:active {
+            color: black;
+        }
+        .footer {
+            width: 100%;
+            padding-top: 2px;
+            padding-right: 5px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+        }
+    </style>
+    <!--Google AdSense-->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-3867183390021876",
+            enable_page_level_ads: true
+        });
+    </script>
+    <!--End Google AdSense-->
+
+</head>
+<body>
+<div class="container">
+    <div id="box" class="box" style="text-align: center">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center>
+                            <h1>
+                                Porthmadog Tide Times
+                            </h1>
+                        </center>
+                    </div>
+                </div>
+                <h3><i>Free</i> Tidal Predictions for the Seaside Town of Porthmadog and its beautiful estuary.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <center>
+                    <ul class="list-inline" id="next7daystides">
+                    </ul>
+                </center>
+            </div>
+
+            <div class="col-lg-12">
+                <center><h2>Monthly Tide Tables</h2></center>
+                <center id="monthspdftides">
+
+                </center>
+            </div>
+            <div class="col-lg-12">
+                <center>
+                    <!--<h2><?=(!$WELSH ? 'Mobile Apps' : "Ceisiadau")?></h2>
+                    <ul class="list-inline intro-social-buttons">
+                        <li>
+                            <a href="//play.google.com/store/apps/details?id=com.PortTides"><img src="img\appbadges\googleplay.png" style="height: 45px;" alt="Android App on Google Play" /></a>
+                        </li>-->
+                    <!--<li>
+                        <a href="//www.windowsphone.com/s?appid=3a9d6921-f974-4a16-afba-2c4344625417"><img src="img\appbadges\windowsphone2.png" style="height: 45px;" alt="Available for Windows Phone" /></a>
+                    </li>-->
+                    <!--<li>
+                        <a href="//www.amazon.co.uk/Bithell-Studios-Porthmadog-Tide-Times/dp/B00M66E79G/"><img src="img\appbadges\amazon.png" style="height: 45px;" alt="Android App on Amazon" /></a>
+                    </li>
+                    <li>
+                        <a href="//chrome.google.com/webstore/detail/ogjgofppefhhffefpehhjefihihihinb" class="js-chrome-install"><img src="img\appbadges\chrome.png" style="height: 45px;" alt="Available for Google Chrome as an Extension" /></a>
+                    </li>
+                </ul>-->
+                    <!--Ads cant be displayed due to licence restrictions-->
+                    <!--<br/><br/><div style="text-align: right; width: 100% padding-left: 10px; padding-right: 20px; ">
+                      <i><a href="https://blog.jbithell.com/ads-on-my-sites/">Why the Ads?</a></i>
+                    </div>-->
+                </center>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <hr/>
+                <div class="footer" id="footer">
+                    <div style="text-align: left" id="copyright">
+
+                    </div>
+                    <div style="text-align: right">[<a href="//weather.port-tides.com">Porthmadog Live Weather</a>] [<a href="javascript:void(0);" onclick="helpinfobox();">Help &amp; Contact</a>]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Gooogle Analytics Tracking Code-->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-60502159-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <!--JBITHELL.COM FLEET UPTIME TRACKING-->
+    <!--qeGxNE4qjgqHdmGFE2AbcNMG6xFyJ4pSzk4fWQVcH7XmUYhCtj-->
+    <!--END JBITHELL.COM FLEET UPTIME TRACKING-->
+</body>
+</html>
